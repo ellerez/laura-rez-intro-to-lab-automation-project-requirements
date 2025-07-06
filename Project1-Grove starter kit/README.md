@@ -14,9 +14,12 @@
  - Test the sound sensor (microphone) by tapping lightly on it
  - accelerometer - try to bring dot to center (or other side)
  - pressure - just note the pressure value below
+ - value: 100352
  - temperature + humidity - when putting finger on the sensor temperature goes up
  - when does the led blink and when is it constant?
+ - the led blinks when entering into mode menu, stays constant while in mode menu, and shuts off when mode is selected.
  - when does the buzzer play?
+ - the buzzer plays when holding down the button for long enough to enter mode menu.
 
 ## Git
  - fork this repo
