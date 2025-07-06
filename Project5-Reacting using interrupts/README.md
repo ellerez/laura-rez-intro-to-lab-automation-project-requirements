@@ -22,12 +22,14 @@ for (int i = 0; i< 10000; i++){
 }
 ```
 - test if lighting led still works. Why or why not?
-answer here: __________
+answer here: ___Lighting does not work - I can see in the serial monitor that it is stuck on 'calculation...' since we gave it an endless calculation, so it doesn't have the opportunity to execute the action_______
 
 ## Use interrupt to light led
 - Add code to create an interrupt pin (why can't it be the button pin?). Use a variable for this.
+-- Pressing the button to interrupt the signal is relatively slow (seconds) compared to the speed at which computers operate (ms and less). It is better to have an interrupt pin that the computer can use to know ~exactly when to interrupt/change the signal.
 - Short the interrupt pin with the button pin
 - test. Does it work?
+-- it does work
 
 ## Exercises
  - commit and upload your code in this project folder.
