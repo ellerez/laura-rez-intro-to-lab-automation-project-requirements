@@ -7,7 +7,7 @@
 
 ## Light led on button press (arduino code)
  - button pin is 6, grove led pin is 4
- - read value from button pin. If button is pressed (how can you tell?) turn grove led on. If button is not pressed, turn it off
+ - read value from button pin. If button is pressed (how can you tell? -- Using digitalRead, if the button "buttonPin" is pressed, it is given a 'High' value, or 1; as opposed to 0 when not pressed) turn grove led on. If button is not pressed, turn it off
  - test that this works.
 
 ## Debug statements
@@ -22,14 +22,14 @@ for (int i = 0; i< 10000; i++){
 }
 ```
 - test if lighting led still works. Why or why not?
-answer here: ___Lighting does not work - I can see in the serial monitor that it is stuck on 'calculation...' since we gave it an endless calculation, so it doesn't have the opportunity to execute the action_______
+answer here: ___Lighting does not work - I can see in the serial monitor that it is stuck on 'calculation...' since we gave it a loop to print 'calculation...' 10 thousand times. It takes too much time and there isn't the opportunity to execute the action_______
 
 ## Use interrupt to light led
 - Add code to create an interrupt pin (why can't it be the button pin?). Use a variable for this.
--- Pressing the button to interrupt the signal is relatively slow (seconds) compared to the speed at which computers operate (ms and less). It is better to have an interrupt pin that the computer can use to know ~exactly when to interrupt/change the signal.
+-- This arduino board only has two interrupt pins, 2 and 3; the button pin is not programmed as an interrupt pin and cannot be used with attachInterrupt
 - Short the interrupt pin with the button pin
 - test. Does it work?
--- it does work
+-- it does work, with pin 3 (interrupt=1, on).
 
 ## Exercises
  - commit and upload your code in this project folder.
