@@ -9,7 +9,7 @@ void handleInterrupt() {
 }
 
 void setup() {
-  pinMode(buttonPin, INPUT);         // Grove button is on D6
+  pinMode(buttonPin, INPUT_PULLUP);         // Grove button is on D6
   pinMode(interruptPin, INPUT);      // Set D2 (jumpered from D6) as input
   pinMode(ledPin, OUTPUT);           // LED on D4
   attachInterrupt(digitalPinToInterrupt(interruptPin), handleInterrupt, CHANGE);
@@ -39,3 +39,4 @@ void loop() {
     Serial.println("LED is OFF");
   }
 }
+
