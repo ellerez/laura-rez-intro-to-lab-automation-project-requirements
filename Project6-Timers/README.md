@@ -22,7 +22,7 @@ add a screen shot from the logic analyzer below:
 - open an example of the package, examine the code and its functions and how to use them.
 - implement a timer to turn off the LED after 5 seconds
 - note the callback in the timer. When is it called?
--- the callback in the timer, 'turnOffLED', is called every 1000 ms, or 1 second (to check if timer should be off)
+-- the callback in the timer, 'turnOffLED', is called every 5000 ms, or 5 seconds, to turn of the led.
 
 ![alt text](image-2.png)
 
