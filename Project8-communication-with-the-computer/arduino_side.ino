@@ -1,4 +1,3 @@
-
 /*Control how long a LED will light when pressing a button on the arduino side. The ON time is configured by user interface in the computer side
 
 The arduino is programmed to turn on the built-in LED (pin 13) when a button (on pin 6) is pressed.
@@ -21,10 +20,12 @@ volatile int secondsPassed = 0;
 bool timerActive = false;
 unsigned long ledOnDuration = 1000;  // Default LED on-time in milliseconds
 volatile bool buttonPressed = false;  // Flag set in interrupt
+bool lastButtonState = HIGH;
 
 // function to turn off led and subsequently reset the active timer flag
 void turnOffLED() {
   digitalWrite(ledPin, LOW);
+  Serial.println("0");
   timerActive = false;
 }
 
@@ -35,7 +36,7 @@ void buttonISR() {
   if (buttonState == HIGH) {
   // Button was pressed
   digitalWrite(ledPin, HIGH);
-  Serial.println("LED is ON");
+  Serial.println("1");
 
   secondsPassed = 0;
   timerRunning = true;
@@ -92,6 +93,14 @@ void loop() {
       Serial.println("Error: Invalid number received");
     }
   }
+
+  // ----------- Button Released Detection (for '2') -----------
+  bool currentButtonState = digitalRead(buttonPin);
+  if (lastButtonState == HIGH && currentButtonState == LOW) {
+    // button was just released (from HIGH to LOW transition)
+    Serial.println("2");
+  }
+  lastButtonState = currentButtonState;
 
   delay(10);  // Small delay to reduce CPU usage
 }
