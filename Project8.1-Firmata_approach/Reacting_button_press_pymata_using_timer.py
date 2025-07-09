@@ -1,94 +1,62 @@
-import asyncio
-import threading
-import PySimpleGUI as sg
-from pymata_express import PyMataExpress
+import time
+import sys
+from pymata4 import pymata4
 
-# Pin configuration
-BUTTON_PIN = 2
-LED_PIN = 13
+print('start')
+# Grove Kit Setup
+BUTTON_PIN = 6       # Button connected to D6
+LED_PIN = 13         # Built-in LED
+POLL_TIME = 1        # Polling interval in seconds
 
-# Default timer delay (ms)
-timer_delay = 2000
+# Callback data indices
+CB_PIN_MODE = 0
+CB_PIN = 1
+CB_VALUE = 2
+CB_TIME = 3
 
-# Global board reference
-board = None
+def the_callback(data):
+    """
+    A callback function to respond to button changes.
+    It prints button state and toggles LED accordingly.
+    """
+    value = data[CB_VALUE]
+    pin = data[CB_PIN]
+    timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(data[CB_TIME]))
+    
+    if value == 0:
+        print(f"[{timestamp}] Button PRESSED on pin {pin}")
+        board.digital_write(LED_PIN, 1)
+    else:
+        print(f"[{timestamp}] Button RELEASED on pin {pin}")
+        board.digital_write(LED_PIN, 0)
 
-# Flag to help update GUI safely from timer
-gui_queue = []
+def monitor_button(my_board, pin):
+    # Set button as digital input with pull-up resistor
+    my_board.set_pin_mode_digital_input_pullup(pin, callback=the_callback)
+    
+    # Set LED pin as output and ensure it's off
+    my_board.set_pin_mode_digital_output(LED_PIN)
+    my_board.digital_write(LED_PIN, 0)
 
-# ---------------
-# Turn off LED
-# ---------------
-def turn_off_led():
-    asyncio.run(board.digital_write(LED_PIN, 0))
-    gui_queue.append("LED turned OFF (timer expired)")
-    gui_queue.append("Button State: Released")
-
-# ---------------
-# Button handler
-# ---------------
-async def button_handler(data):
-    pin, value = data[1], data[2]
-
-    if value == 0:  # Button pressed (active LOW)
-        gui_queue.append("Button Pressed → LED ON")
-        await board.digital_write(LED_PIN, 1)
-        gui_queue.append("Button State: Pressed")
-        threading.Timer(timer_delay / 1000.0, turn_off_led).start()
-
-# ---------------
-# Async setup
-# ---------------
-async def board_setup():
-    global board
-    board = PyMataExpress(com_port="COM4")
-    await board.start()
-    await board.set_pin_mode_digital_input_pullup(BUTTON_PIN, callback=button_handler)
-    await board.set_pin_mode_digital_output(LED_PIN)
-
-# ---------------
-# GUI Layout
-# ---------------
-layout = [
-    [sg.Text("Enter LED ON duration (ms):"), sg.Input(default_text=str(timer_delay), size=(10, 1), key='-TIME-'), sg.Button("Set Timer")],
-    [sg.Text("Button State: ", size=(40, 1), key='-STATE-')],
-    [sg.Text("Log:")],
-    [sg.Multiline(size=(60, 10), key='-LOG-', autoscroll=True, disabled=True)],
-    [sg.Button("Exit")]
-]
-
-window = sg.Window("Arduino Button Timer (FirmataExpress)", layout, finalize=True)
-
-# ---------------
-# Start asyncio board in background
-# ---------------
-asyncio.run(board_setup())
-
-# ---------------
-# Main GUI loop
-# ---------------
-while True:
-    event, values = window.read(timeout=100)
-
-    if event in (sg.WIN_CLOSED, "Exit"):
-        break
-
-    if event == "Set Timer":
+    while True:
         try:
-            timer_delay = int(values['-TIME-'])
-            gui_queue.append(f"New timer delay set: {timer_delay} ms")
-        except ValueError:
-            gui_queue.append("⚠️ Invalid input for timer!")
+            # Optional: poll every few seconds and log button state
+            value, ts = my_board.digital_read(pin)
+            dt = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(ts))
+            print(f"[{dt}] Polling: Button value is {'PRESSED' if value == 0 else 'RELEASED'}")
+            time.sleep(POLL_TIME)
+        except KeyboardInterrupt:
+            print("Exiting...")
+            my_board.shutdown()
+            sys.exit(0)
 
-    # Handle queued messages
-    while gui_queue:
-        msg = gui_queue.pop(0)
-        if msg.startswith("Button State:"):
-            window['-STATE-'].update(msg)
-        else:
-            window['-LOG-'].update(msg + "\n", append=True)
+# Connect to board on COM4
+board = pymata4.Pymata4(com_port="COM4")
 
-# Cleanup
-window.close()
-asyncio.run(board.shutdown())
+try:
+    monitor_button(board, BUTTON_PIN)
+except KeyboardInterrupt:
+    board.shutdown()
+    sys.exit(0)
+
 
