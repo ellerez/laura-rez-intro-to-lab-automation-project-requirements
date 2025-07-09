@@ -19,6 +19,8 @@
 5. use threading.Timer (from the threading python package) to turn off the led. This will allow the script to perform other tasks while waiting for the button press. This version of the script should be named Reacting_button_press_pymata4_using_timer.py.
 6. Add a Graphical User Interface (GUI) to the timer version of the script. The GUI should display the state of the button (pressed or not pressed) and any actions performed in response to the button press. plus, it should have a textbox input to accept different time intervals for the timer.
 7. light the led for 30 ms. Measure in scopy the length of the led light a 5-10 times and measure the average and standard deviation. Compare to previous arduino and non firmata python code.
+- 40.925, 44.484, 48.043, 40.925, 72.954, 48.043, 55.160, 56.940, 40.925, 40.925
+-- MEAN = 48.932 ms STD = 9.787 ms
 8. Include comments explaining the functionality of each part of the code.
 9. Write the script in a clean, organized, and efficient manner following good programming practices.
 
