@@ -44,6 +44,7 @@ threading.Thread(target=read_serial, daemon=True).start()
 # -------------------------
 # MAIN EVENT LOOP
 # -------------------------
+
 while True:
     event, values = window.read()
 
@@ -53,14 +54,24 @@ while True:
     elif event == "Send":
         user_input = values['-INPUT-'].strip()
         if user_input.isdigit():
-            # Send value with newline
             ser.write((user_input + '\n').encode())
         else:
             window['-OUTPUT-'].update("⚠️ Invalid input. Enter a number.\n", append=True)
 
     elif event == '-SERIAL-':
-        # Display incoming message
-        window['-OUTPUT-'].update(values[event] + '\n', append=True)
+        msg = values[event]
+        if msg == '1':
+            window['-OUTPUT-'].update("🔘 Button pressed and LED is ON\n", append=True)
+        elif msg == '0':
+            window['-OUTPUT-'].update("💡 LED is OFF\n", append=True)
+        elif msg == '2':
+            window['-OUTPUT-'].update("🔄 Button released\n", append=True)
+        elif msg.startswith("I received:"):
+            window['-OUTPUT-'].update(f"✅ {msg}\n", append=True)
+        elif "Error" in msg:
+            window['-OUTPUT-'].update(f"❌ {msg}\n", append=True)
+        else:
+            window['-OUTPUT-'].update(f"📨 {msg}\n", append=True)
 
 window.close()
 ser.close()
