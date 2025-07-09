@@ -27,18 +27,21 @@
 
 ## Exercises
 Paste a screenshot of the GUI here:
+![alt text](image.png)
 
 Paste a screenshot of the logic analyzer here that presents the time the LED is ON when pressing the button.
-
+![alt text](image-1.png)
 ```
 What is the difference between the two versions (with pymata4 and firmata and without) of the script? Which one was easier to code? Where was thread handling easier?
 
-Answer: __________
+Answer: __Programming and executing the code and feedback through python and the gui is much slower than running the pogram in the arduino. Programming was simpler in arduino since we didn't have to include a gui. Thread handling was pretty similar in both, though had fewer lines of code in python. ________
 
 
 What can you say about the accuracy of the timing between the firmata version and your arduino code version?
 which one is more accurate and why?
 
+The arduino version was much more accurate. There is probably a delay in the timing due to the firmata code interpreting the commands from python.
+
 What are the advantages and disadvantages of using the pymata4 package?
 
-Answer: __________
+Answer: __Advantages: simply put, a much wider range of opportunities for programming. Disadvantages: less accurate timing.________
