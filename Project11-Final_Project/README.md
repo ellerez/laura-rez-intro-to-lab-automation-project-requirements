@@ -37,3 +37,9 @@ Build a system that:
 1. paste here the videos (one fo the hardware and one of the GUI).
 3. add the csv file to the project. make sure it reflects all the states of the project.
 5. If you have multiple folders, write here which is the final version: 
+-- final py code is "final_proj_control_arduino_gui.py" 
+-- final arduino sketch is "final_proj.ino"
+
+<video controls src="1000047068.mp4" title="Title"></video>
+
+<video controls src="1000047063.mp4" title="Title"></video>

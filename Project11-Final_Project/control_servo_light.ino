@@ -1,3 +1,11 @@
+/*Short sketch to control the servo motor with the light sensor.
+    The servo motor is controlled by the light sensor.
+    The angle of the servo motor is displayed in the OLED display.
+    The estimated RPM of the fan is calculated based on the PWM value (assuming the maximum rpm for the fan of 7000).
+*/
+
+
+
 #include <Servo.h>
 #include "Arduino_SensorKit.h"
 

@@ -1,3 +1,9 @@
+/*Short sketch to control the servo motor with the acceleromter.
+    The servo motor is controlled by the Y-axis of the accelerometer.
+*/
+
+
+
 #include <Servo.h>
 #include "Arduino_SensorKit.h"
 
@@ -28,7 +34,7 @@ void loop() {
   float estimatedRPM = (pwmValue / 255.0) * 7000; // Assume max ~7000 RPM
 
   // ---- Accelerometer reading using SensorKit ----
-  float y = Accelerometer.readY();  // Get Z-axis acceleration
+  float y = Accelerometer.readY();  // Get Y-axis acceleration
   
   // Map Z-axis to servo angle (scaled to degrees)
   int angle = map(y * 100, -100, 100, 0, 180);
