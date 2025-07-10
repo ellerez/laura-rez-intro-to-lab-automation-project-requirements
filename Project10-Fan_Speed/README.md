@@ -22,4 +22,6 @@
 ![Alt text](image.png)
  ## Exercises
     1. Paste here the screenshot of the GUI that shows the speed of the fan in real-time.
+
+    ![alt text](image-1.png)
     2. Add the corresponding csv files of the fan speed to the project folder.
