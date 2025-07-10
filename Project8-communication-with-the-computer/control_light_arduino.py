@@ -37,7 +37,8 @@ def read_serial():
     while True:
         if ser.in_waiting > 0:
             line = ser.readline().decode(errors='ignore').strip()
-            window.write_event_value('-SERIAL-', line)
+            
+            .write_event_value('-SERIAL-', line)
 
 threading.Thread(target=read_serial, daemon=True).start()
 
